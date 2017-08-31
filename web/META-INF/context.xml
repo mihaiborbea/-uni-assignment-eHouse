@@ -1,0 +1,11 @@
+<Context path="/myApp">
+    <Resource name="jdbc/MySQLDb"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="password"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/ehouse"
+              maxActive="15"
+              maxIdle="3"/>
+</Context>
