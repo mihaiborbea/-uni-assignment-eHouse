@@ -6,6 +6,8 @@ public class Image {
     private String path;
     private int postID;
 
+    public Image() {}
+
     public int getID() {
         return ID;
     }
@@ -22,9 +24,7 @@ public class Image {
         this.path = path;
     }
 
-    public int getPostID() {
-        return postID;
-    }
+    public int getPostID() { return postID; }
 
     public void setPostID(int postID) {
         this.postID = postID;
