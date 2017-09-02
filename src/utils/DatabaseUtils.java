@@ -50,6 +50,41 @@ public class DatabaseUtils {
         return null;
     }
 
+    public static UserAccount findUser(Connection conn, String email) {
+
+        String sql = "Select u.id," +
+                "u.first_name," +
+                "u.last_name, " +
+                "u.email," +
+                "u.phone," +
+                " u.password " +
+                "from users u" +
+                " where u.email = ?";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, email);
+
+            try(ResultSet rs = pstm.executeQuery()){
+                if (rs.next()) {
+                    UserAccount user = new UserAccount();
+                    user.setEmail(email);
+                    user.setPassword(rs.getString("password"));
+                    user.setID(rs.getInt("id"));
+                    user.setFirstName(rs.getString("first_name"));
+                    user.setLastName(rs.getString("last_name"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setAdmin(rs.getInt("admin"));
+                    return user;
+                }
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+
     public static void createUser (Connection conn, UserAccount user) {
        String sql = "Insert into users(first_name,last_name,email,phone,password,admin) values (?,?,?,?,?,?)";
 
