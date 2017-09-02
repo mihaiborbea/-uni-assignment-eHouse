@@ -50,18 +50,17 @@ public class DatabaseUtils {
         return null;
     }
 
-    public static void addUser (Connection conn, UserAccount user) {
+    public static void createUser (Connection conn, UserAccount user) {
        String sql = "Insert into users(first_name,last_name,email,phone,password,admin) values (?,?,?,?,?,?)";
 
        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-           int useradm = 0;
            pstm.setString(1, user.getFirstName());
            pstm.setString(2, user.getLastName());
            pstm.setString(3, user.getEmail());
            pstm.setString(4, user.getPhone());
            pstm.setString(5, user.getPassword());
-           pstm.setInt(6, useradm);
+           pstm.setInt(6, user.getAdmin());
            pstm.executeUpdate();
        }
        catch (SQLException e) {
