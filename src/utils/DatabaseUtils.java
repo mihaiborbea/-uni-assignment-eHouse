@@ -16,14 +16,7 @@ public class DatabaseUtils {
 
     public static UserAccount findUser(Connection conn, String email, String password) {
 
-        String sql = "Select u.id," +
-                "u.first_name," +
-                "u.last_name, " +
-                "u.email," +
-                "u.phone," +
-                " u.password " +
-                "from users u" +
-                " where u.email = ? and u.password = ?";
+        String sql = "Select id,first_name,last_name,email,phone,password,admin from users where email =? and password =?;";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -52,14 +45,7 @@ public class DatabaseUtils {
 
     public static UserAccount findUser(Connection conn, String email) {
 
-        String sql = "Select u.id," +
-                "u.first_name," +
-                "u.last_name, " +
-                "u.email," +
-                "u.phone," +
-                " u.password " +
-                "from users u" +
-                " where u.email = ?";
+        String sql = "Select id,first_name,last_name,email,phone,password,admin from users where email = ?;";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -104,13 +90,7 @@ public class DatabaseUtils {
    }
 
     public static void updateUser (Connection conn, UserAccount user) {
-        String sql = "UPDATE users SET" +
-                     "first_name = ?," +
-                     "last_name = ?," +
-                     "phone = ?," +
-                     "password = ?," +
-                     "admin = ?" +
-                     "where email = ?";
+        String sql = "UPDATE users SET first_name = ?,last_name = ?,phone = ?,password = ?,admin = ? where email = ? ;d";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 

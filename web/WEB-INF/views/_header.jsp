@@ -7,9 +7,16 @@
 
     <div style="float: right; padding: 10px; text-align: right;">
 
-        <!-- User store in session with attribute: loginedUser -->
-        Hello <b>${loginedUser.userEmail}</b>
+        <c:choose>
+            <c:when test="${loggedUser.getEmail() != null}">
+                Hello <b>${loggedUser.getEmail()}</b>
+            </c:when>
+            <c:otherwise>
+                <a href="${pageContext.request.contextPath}/login">Login</a>
+            </c:otherwise>
+        </c:choose>
         <br/>
+        ${loggedUser.getEmail() != null ? "hello" : "bye"}
         Search <input name="search">
 
     </div>
