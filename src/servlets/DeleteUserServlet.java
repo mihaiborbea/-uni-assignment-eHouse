@@ -1,6 +1,7 @@
 package servlets;
 
 import beans.UserAccount;
+import utils.DatabaseUtils;
 import utils.SessionUtils;
 
 import javax.servlet.RequestDispatcher;
@@ -11,31 +12,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Connection;
 
-@WebServlet(urlPatterns = { "/userInfo" })
-public class UserInfoServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/deleteUser" })
+public class DeleteUserServlet extends HttpServlet {
 
-    public UserInfoServlet() {
+    public DeleteUserServlet() {
         super();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
-        // Check User has logged on
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
-        // Not logged in
+        // not logged in
         if (loggedUser == null) {
-            // Redirect to login page.
+            // Redirect to home
             response.sendRedirect(request.getContextPath() + "/login");
-            return;
         }
-        // Store info in request attribute
-        request.setAttribute("user", loggedUser);
-        // Logined, forward to /WEB-INF/views/userInfoView.jsp
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
-        dispatcher.forward(request, response);
+        else {
+            //delete cookie
+            SessionUtils.deleteUserCookie(response);
+            //delete session
+            session.invalidate();
+            //delete user in DB
+            Connection conn = SessionUtils.getStoredConnection(request);
+            String deleteUserEmail = (String) request.getParameter("user");
+            DatabaseUtils.deleteUser(conn,DatabaseUtils.findUser(conn,deleteUserEmail));
+            //redirect to home
+            response.sendRedirect(request.getContextPath() + "/home");
+        }
 
     }
     @Override

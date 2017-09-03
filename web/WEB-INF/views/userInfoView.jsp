@@ -11,12 +11,13 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<h3>Hello: ${user.userName}</h3>
+<h3>Hello: ${user.getFirstName()} ${user.getLastName()}</h3>
 
-User Email: <b>${user.userEmail}</b>
+Email: <b>${user.getEmail()}</b>
 <br />
-Gender: ${user.gender } <br />
-
+Phone: ${user.getPhone()} <br />
+<br />
+<a href="/deleteUser?user=${user.getEmail()}">Delete account</a>
 <jsp:include page="_footer.jsp"></jsp:include>
 
 </body>

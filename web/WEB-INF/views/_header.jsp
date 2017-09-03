@@ -10,6 +10,7 @@
         <c:choose>
             <c:when test="${loggedUser.getEmail() != null}">
                 Hello <b>${loggedUser.getEmail()}</b>
+                <a href="${pageContext.request.contextPath}/logout">Logout</a>
             </c:when>
             <c:otherwise>
                 <a href="${pageContext.request.contextPath}/login">Login</a>
