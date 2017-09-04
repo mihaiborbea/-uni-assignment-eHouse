@@ -208,8 +208,7 @@ public class DatabaseUtils {
     }
 
     public static List<Post> queryPosts(Connection conn){
-        String sql = "Select p.id, p.user_id, p.date, p.views, p.title, p.address, p.price, p.city, p.country" +
-                     "from posts p";
+        String sql = "Select id, user_id, date, views, title, address, price, city, country from posts";
         List<Post> list = new ArrayList<Post>();
 
         try(PreparedStatement pstm = conn.prepareStatement(sql);
@@ -271,8 +270,7 @@ public class DatabaseUtils {
     }
 
     public static List<Image> queryImage(Connection conn){
-        String sql = "Select i.id, i.path, i.post_id" +
-                     "from images i";
+        String sql = "Select id, path, post_id from images";
         List<Image> list = new ArrayList<Image>();
 
         try(PreparedStatement pstm = conn.prepareStatement(sql);
