@@ -31,23 +31,15 @@ public class JDBCFilter implements Filter {
     // Check the target of the request is a servlet?
     private boolean needJDBC(HttpServletRequest request) {
         System.out.println("JDBC Filter");
-        //
-        // Servlet Url-pattern: /spath/*
-        //
-        // => /spath
         String servletPath = request.getServletPath();
-        // => /abc/mnp
         String pathInfo = request.getPathInfo();
 
         String urlPattern = servletPath;
 
         if (pathInfo != null) {
-            // => /spath/*
             urlPattern = servletPath + "/*";
         }
 
-        // Key: servletName.
-        // Value: ServletRegistration
         Map<String, ? extends ServletRegistration> servletRegistrations = request.getServletContext()
                 .getServletRegistrations();
 

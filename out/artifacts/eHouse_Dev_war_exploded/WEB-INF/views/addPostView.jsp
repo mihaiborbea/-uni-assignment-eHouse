@@ -4,42 +4,42 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Add Post</title>
 </head>
 <body>
 
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<h3>Register Page</h3>
+<h3>Add Post Page</h3>
 
 <p style="color: red;">${errorString}</p>
 
-<form method="POST" action="doRegister">
+<form method="POST" action="doAddPost" enctype="multipart/form-data">
     <table border="0">
         <tr>
-            <td>First Name</td>
-            <td><input type="text" name="fname" value= "${user.getFirstName()}" /> </td>
+            <td>Title</td>
+            <td><input type="text" name="title" value= "${post.getTitle()}" /> </td>
         </tr>
         <tr>
-            <td>Last Name</td>
-            <td><input type="text" name="lname" value= "${user.getLastName()}" /> </td>
+            <td>Address</td>
+            <td><input type="text" name="address" value= "${post.getAddress()}" /> </td>
         </tr>
         <tr>
-            <td>Email</td>
-            <td><input type="text" name="email" value= "${user.getEmail()}" /> </td>
+            <td>City</td>
+            <td><input type="text" name="city" value= "${post.getCity()}" /> </td>
         </tr>
         <tr>
-            <td>Phone</td>
-            <td><input type="text" name="phone" value= "${user.getPhone()}" /> </td>
+            <td>Country</td>
+            <td><input type="text" name="country" value= "${post.getCountry()}" /> </td>
         </tr>
         <tr>
-            <td>Password</td>
-            <td><input type="text" name="password" value= "${user.getPassword()}" /> </td>
+            <td>Price</td>
+            <td><input type="text" name="price" value= "${post.getPrice()}" /> </td>
         </tr>
         <tr>
-            <td>Confirm Password</td>
-            <td><input type="text" name="confpassword" value= "${user.getPassword()}" /> </td>
+            <td>Image</td>
+            <td><input type="file" name="image" accept="image/*"/> </td>
         </tr>
         <tr>
             <td colspan ="2">

@@ -66,7 +66,7 @@ public class DoLoginServlet extends HttpServlet {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
             dispatcher.forward(request, response);
         }
-        // If no error Store user information in Session And redirect to userInfo page.
+        // If no error Store user information in Session And redirect to home page.
         else {
             HttpSession session = request.getSession();
             SessionUtils.storeLoggedUser(session, user);
@@ -79,7 +79,7 @@ public class DoLoginServlet extends HttpServlet {
             else  {
                 SessionUtils.deleteUserCookie(response);
             }
-            // Redirect to userInfo page.
+            // Redirect to home page.
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

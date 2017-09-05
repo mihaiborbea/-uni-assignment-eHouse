@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = { "/register"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/addPost"})
+public class AddPostServlet extends HttpServlet {
 
-    public RegisterServlet() {
+    public AddPostServlet() {
         super();
     }
 
@@ -26,11 +26,11 @@ public class RegisterServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
         // logged in
-        if (loggedUser != null) {
+        if (loggedUser == null) {
             // Redirect to home
-            response.sendRedirect(request.getContextPath() + "/home");
+            response.sendRedirect(request.getContextPath() + "/login");
         } else {
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/registerView.jsp");
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/addPostView.jsp");
             dispatcher.forward(request, response);
         }
     }

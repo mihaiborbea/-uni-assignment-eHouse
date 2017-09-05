@@ -244,6 +244,43 @@ public class DatabaseUtils {
         return list;
     }
 
+    public static List<Post> queryPosts(Connection conn, int userID){
+        String sql = "Select id, user_id, date, views, title, address, price, city, country from posts where user_id = "+userID;
+        List<Post> list = new ArrayList<Post>();
+
+        try(PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userid = rs.getInt("user_id");
+                Date date = rs.getTimestamp("date");
+                int views = rs.getInt("views");
+                String title = rs.getString("title");
+                String address = rs.getString("address");
+                int price = rs.getInt("price");
+                String city = rs.getString("city");
+                String country = rs.getString("country");
+
+                Post post = new Post();
+                post.setID(id);
+                post.setUserID(userid);
+                post.setDate(date);
+                post.setViews(views);
+                post.setTitle(title);
+                post.setAddress(address);
+                post.setPrice(price);
+                post.setCity(city);
+                post.setCountry(country);
+                list.add(post);
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return list;
+    }
+
     public static void addImage (Connection conn, Image image, int postID) {
         String sql = "Insert into image(path,post_id) values (?,?)";
 
@@ -269,8 +306,8 @@ public class DatabaseUtils {
         }
     }
 
-    public static List<Image> queryImage(Connection conn){
-        String sql = "Select id, path, post_id from images";
+    public static List<Image> queryImages(Connection conn, int postID){
+        String sql = "Select id, path, post_id from images where post_id = " + postID;
         List<Image> list = new ArrayList<Image>();
 
         try(PreparedStatement pstm = conn.prepareStatement(sql);

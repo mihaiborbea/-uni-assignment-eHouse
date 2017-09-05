@@ -13,16 +13,8 @@
 
 <h3>Home Page</h3>
 
-This is demo Simple web application using jsp,servlet &amp; Jdbc. <br><br>
-<b>It includes the following functions:</b>
-<ul>
-    <li>Login</li>
-    <li>Storing user information in cookies</li>
-    <li>Product List</li>
-    <li>Create Product</li>
-    <li>Edit Product</li>
-    <li>Delete Product</li>
-</ul>
+This is demo Simple web application using jsp,servlet &amp; Jdbc. <br>
+This is web app is made for a real estate advertising firm. <br><br>
 
 <jsp:include page="_footer.jsp"></jsp:include>
 
