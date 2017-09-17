@@ -8,7 +8,7 @@
     <div style="float: right; padding: 10px; text-align: right;">
 
         <c:if test="${loggedUser != null}">
-            Hello <a href="${pageContext.request.contextPath}/userInfo"><b>${loggedUser.getEmail()}</b></a><br>
+            Hello <a href="${pageContext.request.contextPath}/userInfo" style="text-decoration: none;"><b>${loggedUser.getFirstName()} ${loggedUser.getLastName()}</b></a><br>
             <a href="${pageContext.request.contextPath}/addPost">Add Post</a>
             <a href="${pageContext.request.contextPath}/logout">Logout</a>
         </c:if>

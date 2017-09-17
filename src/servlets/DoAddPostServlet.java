@@ -23,9 +23,6 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 
 @WebServlet(urlPatterns = { "/doAddPost"})
@@ -37,13 +34,6 @@ public class DoAddPostServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        doPost(request, response);
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String title = request.getParameter("title");
         String address = request.getParameter("address");
@@ -66,7 +56,7 @@ public class DoAddPostServlet extends HttpServlet {
         if (title == null || address == null || title.length() == 0 || address.length() == 0
                 || city == null || city.length() == 0 || country == null || country.length() == 0) {
             hasErrorr = true;
-            errorString = "All fields are mandatory!";
+            errorString = "All fields are mandatory!"+title+address+city+country;
         }
 
 
@@ -78,6 +68,7 @@ public class DoAddPostServlet extends HttpServlet {
             post.setCity(city);
             post.setCountry(country);
             post.setPrice(price);
+            post.setViews(views);
             post.setUserID(loggedUser.getID());
             // Store information in request attribute, before forward.
             request.setAttribute("errorString", errorString);
@@ -129,5 +120,12 @@ public class DoAddPostServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        doGet(request, response);
     }
 }

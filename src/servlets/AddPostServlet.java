@@ -22,12 +22,13 @@ public class AddPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to /WEB-INF/views/registerView.jsp
+
         // Check User has logged on
         HttpSession session = request.getSession();
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
         // logged in
         if (loggedUser == null) {
-            // Redirect to home
+            // Redirect to login
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/addPostView.jsp");

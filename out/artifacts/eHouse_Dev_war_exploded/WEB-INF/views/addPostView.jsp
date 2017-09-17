@@ -15,7 +15,7 @@
 
 <p style="color: red;">${errorString}</p>
 
-<form method="POST" action="doAddPost" enctype="multipart/form-data">
+<form method="POST" action="doAddPost">
     <table border="0">
         <tr>
             <td>Title</td>
