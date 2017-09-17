@@ -17,6 +17,6 @@
 
     <a href="${pageContext.request.contextPath}/">Home</a>
     |
-    <a href="${pageContext.request.contextPath}/addPost">Add Postt</a>
+    <a href="${pageContext.request.contextPath}/addPost">Add Post</a>
 
 </div>

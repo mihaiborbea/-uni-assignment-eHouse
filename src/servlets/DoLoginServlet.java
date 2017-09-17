@@ -34,23 +34,17 @@ public class DoLoginServlet extends HttpServlet {
         boolean hasError = false;
         String errorString = null;
 
+        //Check inputs and set errors
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = "Required email and password!";
         } else {
             Connection conn = SessionUtils.getStoredConnection(request);
-            try {
+            user = DatabaseUtils.findUser(conn, email, password);
 
-                user = DatabaseUtils.findUser(conn, email, password);
-
-                if (user == null) {
-                    hasError = true;
-                    errorString = "Email or password invalid";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (user == null) {
                 hasError = true;
-                errorString = e.getMessage();
+                errorString = "Email or password invalid";
             }
         }
 
@@ -79,7 +73,7 @@ public class DoLoginServlet extends HttpServlet {
             else  {
                 SessionUtils.deleteUserCookie(response);
             }
-            // Redirect to home page.
+            // Redirect to home
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

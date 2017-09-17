@@ -22,7 +22,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to /WEB-INF/views/loginView.jsp
-        // Check User has logged on
+
+        // Check User is logged in
         HttpSession session = request.getSession();
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
         // logged in
@@ -31,6 +32,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/home");
         }
         else {
+            //Redirect to login
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
             dispatcher.forward(request, response);
         }

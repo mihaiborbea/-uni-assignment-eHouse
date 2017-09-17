@@ -22,14 +22,15 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to /WEB-INF/views/registerView.jsp
-        // Check User has logged on
+
+        // Check User is logged in
         HttpSession session = request.getSession();
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
-        // logged in
         if (loggedUser != null) {
             // Redirect to home
             response.sendRedirect(request.getContextPath() + "/home");
         } else {
+            //Redirect to register
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/registerView.jsp");
             dispatcher.forward(request, response);
         }

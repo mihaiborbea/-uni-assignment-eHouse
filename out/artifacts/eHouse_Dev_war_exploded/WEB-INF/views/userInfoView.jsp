@@ -17,7 +17,12 @@ Email: <b>${user.getEmail()}</b>
 <br />
 Phone: ${user.getPhone()} <br />
 <br />
-<a href="/deleteUser?user=${user.getEmail()}">Delete account</a>
+<script>
+    function myFunction() {
+        if(confirm("Are you sure?") == true){document.location.href = '/deleteUser?userID=${user.getID()}'}
+    }
+</script>
+<button onclick = "myFunction()">Delete account</button>
 <jsp:include page="_footer.jsp"></jsp:include>
 
 </body>

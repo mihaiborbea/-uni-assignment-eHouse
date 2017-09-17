@@ -71,6 +71,34 @@ public class DatabaseUtils {
         return null;
     }
 
+    public static UserAccount findUser(Connection conn, int ID) {
+
+        String sql = "Select id,first_name,last_name,email,phone,password,admin from users where id = ?;";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, ID);
+
+            try(ResultSet rs = pstm.executeQuery()){
+                if (rs.next()) {
+                    UserAccount user = new UserAccount();
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setID(ID);
+                    user.setFirstName(rs.getString("first_name"));
+                    user.setLastName(rs.getString("last_name"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setAdmin(rs.getInt("admin"));
+                    return user;
+                }
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+
     public static void createUser (Connection conn, UserAccount user) {
        String sql = "Insert into users(first_name,last_name,email,phone,password,admin) values (?,?,?,?,?,?)";
 
@@ -90,7 +118,7 @@ public class DatabaseUtils {
    }
 
     public static void updateUser (Connection conn, UserAccount user) {
-        String sql = "UPDATE users SET first_name = ?,last_name = ?,phone = ?,password = ?,admin = ? where email = ? ;d";
+        String sql = "UPDATE users SET first_name = ?,last_name = ?,phone = ?,password = ?,admin = ? where email = ? ;";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -142,13 +170,7 @@ public class DatabaseUtils {
     }
 
     public static void updatePost (Connection conn, Post post) {
-        String sql = "Update post SET" +
-                     "title = ?," +
-                     "address = ?," +
-                     "price = ?," +
-                     "city = ?," +
-                     "country = ?" +
-                     "where id = ?";
+        String sql = "Update post SET title = ?, address = ?, price = ?, city = ?, country = ? where id = ?";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 

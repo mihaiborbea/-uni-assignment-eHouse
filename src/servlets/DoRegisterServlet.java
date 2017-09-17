@@ -35,6 +35,7 @@ public class DoRegisterServlet extends HttpServlet {
         boolean hasError = false;
         String errorString = null;
 
+        // Check inputs and set errors
         if (email == null || password == null || email.length() == 0 || password.length() == 0
                 || fname == null || fname.length() == 0 || lname == null || lname.length() == 0
                 || phone == null || phone.length() == 0 || confpassword == null || confpassword.length() == 0) {
@@ -78,8 +79,13 @@ public class DoRegisterServlet extends HttpServlet {
             user.setLastName(lname);
             user.setPhone(phone);
             user.setAdmin(adminsts);
+            //insert user in DB
             DatabaseUtils.createUser(conn,user);
-            response.sendRedirect(request.getContextPath() + "/home");
+            //set attribute to auto complete login form
+            request.setAttribute("user", user);
+            //redirect to loginView
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+            dispatcher.forward(request, response);
         }
     }
 

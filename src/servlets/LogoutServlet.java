@@ -21,11 +21,10 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Forward to /WEB-INF/views/loginView.jsp
-        // Check User has logged on
-        HttpSession session = request.getSession();
-        UserAccount loggedUser = SessionUtils.getLoggedUser(session);
+        // Forward to /WEB-INF/views/homeView.jsp
 
+
+        HttpSession session = request.getSession();
         //delete cookie
         SessionUtils.deleteUserCookie(response);
         //delete session

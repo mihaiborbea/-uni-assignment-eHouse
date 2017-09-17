@@ -33,7 +33,7 @@ public class UserInfoServlet extends HttpServlet {
         }
         // Store info in request attribute
         request.setAttribute("user", loggedUser);
-        // Logined, forward to /WEB-INF/views/userInfoView.jsp
+        // Logged, forward to /WEB-INF/views/userInfoView.jsp
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
         dispatcher.forward(request, response);
 

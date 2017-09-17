@@ -26,41 +26,55 @@ public class DeleteUserServlet extends HttpServlet {
         super();
     }
 
+    private void _deleteUser(Integer userID, HttpServletRequest request){
+        Connection conn = SessionUtils.getStoredConnection(request);
+        ArrayList<Post> posts = new ArrayList<>(DatabaseUtils.queryPosts(conn, userID));
+        //delete user's posts
+        if(posts != null)
+            for(Post post : posts) {
+                ArrayList<Image> images = new ArrayList<>(DatabaseUtils.queryImages(conn, post.getID()));
+                //delete post's images
+                if (images != null)
+                    for(Image img : images) {
+                        DatabaseUtils.deleteImage(conn, img);
+                    }
+                DatabaseUtils.deletePost(conn, post);
+            }
+        //delete user in DB
+        DatabaseUtils.deleteUser(conn,DatabaseUtils.findUser(conn,userID));
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Forward to /WEB-INF/views/homeView.jsp
+
         HttpSession session = request.getSession();
         UserAccount loggedUser = SessionUtils.getLoggedUser(session);
+        Integer deleteUserID = Integer.parseInt(request.getParameter("userID"));
+
         // not logged in
         if (loggedUser == null) {
-            // Redirect to home
+            // Redirect to login
             response.sendRedirect(request.getContextPath() + "/login");
         }
-        else {
-            //delete cookie
+        //check if user to delete is the logged user
+        else if(deleteUserID == loggedUser.getID()) {
+            _deleteUser(deleteUserID, request);
+            // delete cookie
             SessionUtils.deleteUserCookie(response);
-            Connection conn = SessionUtils.getStoredConnection(request);
-            String deleteUserEmail = (String) request.getParameter("user");
-            int userID = DatabaseUtils.findUser(conn,deleteUserEmail).getID();
-            List<Post> posts = new ArrayList<Post>();
-            posts = DatabaseUtils.queryPosts(conn, userID);
-            //delete user's posts
-            if(posts != null)
-                for(Post post : posts) {
-                    List<Image> images = new ArrayList<Image>();
-                    images = DatabaseUtils.queryImages(conn, post.getID());
-                    //delete user's post images
-                    if (images != null)
-                        for(Image img : images) {
-                            DatabaseUtils.deleteImage(conn, img);
-                        }
-                    DatabaseUtils.deletePost(conn, post);
-                }
-            //delete user in DB
-            DatabaseUtils.deleteUser(conn,DatabaseUtils.findUser(conn,deleteUserEmail));
             //delete session
             session.invalidate();
-            //redirect to home
-            response.sendRedirect(request.getContextPath() + "/home");
+            //redirect
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
+        //if the the user to delete is not logged user check for admin privileges
+        else {
+            if(loggedUser.getAdmin() == 1) {
+                _deleteUser(deleteUserID, request);
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
+            else
+                response.sendRedirect(request.getContextPath() + "/home");
         }
 
     }

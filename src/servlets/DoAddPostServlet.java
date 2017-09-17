@@ -38,6 +38,13 @@ public class DoAddPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        doPost(request, response);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String title = request.getParameter("title");
         String address = request.getParameter("address");
         String city = request.getParameter("city");
@@ -59,7 +66,7 @@ public class DoAddPostServlet extends HttpServlet {
         if (title == null || address == null || title.length() == 0 || address.length() == 0
                 || city == null || city.length() == 0 || country == null || country.length() == 0) {
             hasErrorr = true;
-            errorString = "All fields are mandatory!" + title + address + city + country;
+            errorString = "All fields are mandatory!";
         }
 
 
@@ -93,7 +100,6 @@ public class DoAddPostServlet extends HttpServlet {
 
         //process only if its multipart content
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
         if (isMultipart) {
             FileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload upload = new ServletFileUpload(factory);
@@ -123,15 +129,5 @@ public class DoAddPostServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
-        request.getRequestDispatcher("/home").forward(request, response);
-
-
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
     }
 }
