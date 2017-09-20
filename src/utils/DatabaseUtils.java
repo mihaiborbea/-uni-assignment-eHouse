@@ -149,7 +149,7 @@ public class DatabaseUtils {
     }
 
     public static void addPost (Connection conn, Post post, int userID) {
-        String sql = "Insert into post(user_id,date,views,title,address,price,city,country) values (?,?,?,?,?,?,?,?)";
+        String sql = "Insert into posts(user_id,date,views,title,address,price,city,country) values (?,?,?,?,?,?,?,?)";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -170,7 +170,7 @@ public class DatabaseUtils {
     }
 
     public static void updatePost (Connection conn, Post post) {
-        String sql = "Update post SET title = ?, address = ?, price = ?, city = ?, country = ? where id = ?";
+        String sql = "Update posts SET title = ?, address = ?, price = ?, city = ?, country = ? where id = ?";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -217,8 +217,39 @@ public class DatabaseUtils {
         return null;
     }
 
+    public static Post findPost (Connection conn, int userID, String title) {
+        String sql = "Select p.id, p.user_id, p.date, p.views, p.title, p.address, p.price, p.city, p.country" +
+                " from posts p" +
+                " where user_id=? AND title = ?";
+
+        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, userID);
+            pstm.setString(2, title);
+            try(ResultSet rs = pstm.executeQuery()){
+                if (rs.next()) {
+                    Post post = new Post();
+                    post.setID(rs.getInt("id"));
+                    post.setUserID(rs.getInt("user_id"));
+                    post.setDate(rs.getTimestamp("date"));
+                    post.setViews(rs.getInt("views"));
+                    post.setTitle(rs.getString("title"));
+                    post.setAddress(rs.getString("address"));
+                    post.setPrice(rs.getInt("price"));
+                    post.setCity(rs.getString("city"));
+                    post.setCountry(rs.getString("country"));
+                    return post;
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+
     public static void deletePost (Connection conn, Post post) {
-        String sql = "Delete from post where id = ?";
+        String sql = "Delete from posts where id = ?";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setInt(1, post.getID());
@@ -303,12 +334,12 @@ public class DatabaseUtils {
         return list;
     }
 
-    public static void addImage (Connection conn, Image image, int postID) {
-        String sql = "Insert into image(path,post_id) values (?,?)";
+    public static void addImage (Connection conn, Image image) {
+        String sql = "Insert into images(image_path,post_id) values (?,?)";
 
         try(PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, image.getPath());
-            pstm.setInt(2, postID);
+            pstm.setInt(2, image.getPostID());
             pstm.executeUpdate();
         }
         catch (SQLException e) {

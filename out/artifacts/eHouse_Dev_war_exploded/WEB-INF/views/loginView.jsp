@@ -32,7 +32,7 @@
         <tr>
             <td colspan ="2">
                 <input type="submit" value= "Submit" />
-                <a href="${pageContext.request.contextPath}/"><button value="Cancel">Cancel</button></a>
+                <a href="${pageContext.request.contextPath}/"><input type="button" value="Cancel"></a>
             </td>
         </tr>
     </table>
