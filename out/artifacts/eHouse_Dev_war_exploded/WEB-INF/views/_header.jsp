@@ -2,7 +2,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <div style="background: #E0E0E0; height: 55px; padding: 5px;">
     <div style="float: left">
-        <h1>eHouse</h1>
+        <a href="${pageContext.request.contextPath}/" style="text-decoration: none; color: #000;"><h1>eHouse</h1></a>
     </div>
 
     <div style="float: right; padding: 10px; text-align: right;">

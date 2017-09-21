@@ -92,22 +92,20 @@ public class DoAddPostServlet extends HttpServlet {
             int postID = DatabaseUtils.findPost(conn, loggedUser.getID(), post.getTitle()).getID();
 
             //image upload
+            File path = new File("/Users/borbe/IdeaProjects/eHouse_Dev/web/uploads");
 
-            String root = getServletContext().getRealPath("/");
-            File path = new File(root + "/uploads");
-
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            File savedFile = new File(path, FilenameUtils.removeExtension(fileName) + "_" + System.currentTimeMillis() +
-                                        "." + FilenameUtils.getExtension(fileName));
+            String file = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String fileName = FilenameUtils.removeExtension(file) + "_" + System.currentTimeMillis() + "." + FilenameUtils.getExtension(file);
+            File savedFile = new File(path, fileName);
             String absolutePath = savedFile.getAbsolutePath();
             filePart.write(absolutePath);
 
             Image img = new Image();
             img.setPostID(postID);
-            img.setPath(absolutePath);
+            img.setPath(fileName);
             DatabaseUtils.addImage(conn, img);
 
-            response.sendRedirect(request.getContextPath() + "/myPostsView");
+            response.sendRedirect(request.getContextPath() + "/myPosts");
         }
 
 //        //process only if its multipart content

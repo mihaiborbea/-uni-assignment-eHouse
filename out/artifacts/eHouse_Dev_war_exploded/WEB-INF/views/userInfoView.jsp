@@ -9,9 +9,10 @@
 <body>
 
 <jsp:include page="_header.jsp"></jsp:include>
-<jsp:include page="_menu.jsp"></jsp:include>
 
 <h3>Hello: ${user.getFirstName()} ${user.getLastName()}</h3>
+
+<h4><a href="${pageContext.request.contextPath}/myPosts"> My Posts</a></h4>
 
 Email: <b>${user.getEmail()}</b>
 <br />

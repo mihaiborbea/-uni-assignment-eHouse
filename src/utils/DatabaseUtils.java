@@ -360,7 +360,7 @@ public class DatabaseUtils {
     }
 
     public static List<Image> queryImages(Connection conn, int postID){
-        String sql = "Select id, path, post_id from images where post_id = " + postID;
+        String sql = "Select id, image_path, post_id from images where post_id = " + postID;
         List<Image> list = new ArrayList<Image>();
 
         try(PreparedStatement pstm = conn.prepareStatement(sql);
@@ -368,7 +368,7 @@ public class DatabaseUtils {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String path = rs.getString("path");
+                String path = rs.getString("image_path");
                 int postid = rs.getInt("post_id");
 
                 Image image = new Image();
